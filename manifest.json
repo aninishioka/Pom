@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Pom",
+    "version": "1.0",
+    "description": "Pomodoro timer",
+
+    "action": {
+        "default_timer": "Pom",
+        "default_popup": "popup.html"
+    },
+    
+    "background": {
+        "service_worker": "js/background.js"
+    }
+}
