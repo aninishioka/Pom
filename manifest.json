@@ -6,7 +6,10 @@
 
     "action": {
         "default_timer": "Pom",
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "assets/off_16.png"
+        }
     },
     
     "background": {

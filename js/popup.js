@@ -2,7 +2,11 @@
 /*****to do: getPhaseDuration --> setPhaseDuration****/
 /*****to do: user preferences*****/
 /*****to do: when to reset work phase count for the  day? at midnight?*****/
-/*****to do: phase keeps defaulting to short break? but sets to right time idk what's going on*****/
+/*****to do: change color of icon when running. diff depending on phase?*****/
+/*****to do: change color of popup w each phase*****/
+/*****to do: label on top for each phase. eventually make clickable so can change phases*****/
+/*****to do: gear icon in corner*****/
+/*****to do: for some reason didn't go to next phase and got stuck until pressed reset. why?*****/
 
 const storage = chrome.storage.sync;
 const countdown = document.getElementById("countdown");
@@ -32,9 +36,14 @@ const phase = {
 }
 const cycleLength = 8;
 
-let workDuration = 10 * millisecsInASec; //25 * millisecsInAMin;
-let shortBreak = 5 * millisecsInASec; //5 * millisecsInAMin;
-let longBreak = 8 * millisecsInASec; //15 * millisecsInAMin;
+/*let workDuration = 25 * millisecsInAMin; 
+let shortBreak = 5 * millisecsInAMin; 
+let longBreak = 15 * millisecsInAMin;*/ 
+
+/*****for debugging*****/
+let workDuration = 10 * millisecsInASec; 
+let shortBreak = 5 * millisecsInASec;
+let longBreak = 8 * millisecsInASec;
 
 document.addEventListener("DOMContentLoaded", () => {
     displayCountdown();
@@ -184,7 +193,7 @@ function formatTime(millisecs) {
 }
 
 /*****remove?*****/
-function setPhase(curPomPhase, curPhaseCount) {
+function setNextPhase(curPomPhase, curPhaseCount) {
     let newPomPhase;
     let newPhaseCount = curPhaseCount + 1;
     console.log(newPhaseCount);
