@@ -2,11 +2,9 @@
 /*****to do: getPhaseDuration --> setPhaseDuration****/
 /*****to do: user preferences*****/
 /*****to do: when to reset work phase count for the  day? at midnight?*****/
-/*****to do: change color of icon when running. diff depending on phase?*****/
-/*****to do: change color of popup w each phase*****/
 /*****to do: label on top for each phase. eventually make clickable so can change phases*****/
 /*****to do: gear icon in corner*****/
-/*****to do: for some reason didn't go to next phase and got stuck until pressed reset. why?*****/
+/*****to do: need diff way to count in case user changes phase themselves and throws count off. just count work phases?*****/
 
 const storage = chrome.storage.sync;
 const countdown = document.getElementById("countdown");
@@ -35,6 +33,11 @@ const phase = {
     longBreak: 2
 }
 const cycleLength = 8;
+const popupColors = {
+    off: "#000000",
+    work: "#EA4F49",
+    break: "#49C199"
+}
 
 /*let workDuration = 25 * millisecsInAMin; 
 let shortBreak = 5 * millisecsInAMin; 
@@ -46,8 +49,8 @@ let shortBreak = 5 * millisecsInASec;
 let longBreak = 8 * millisecsInASec;
 
 document.addEventListener("DOMContentLoaded", () => {
-    displayCountdown();
-    displayTimerStatus(); /*****for debugging*****/
+    updateDisplay();
+    //displayTimerStatus(); /*****for debugging*****/
 });
 
 start.addEventListener("click", () => {
@@ -74,8 +77,8 @@ function initTimer() {
         let duration = getPhaseDuration(data.pomPhase); //to do: clean up code
         let endTime = calculateEndTime(duration);
         storage.set({"endTime": endTime, "timerStatus": status.on}, () => {
-            displayCountdown();
-            displayTimerStatus();  //for debugging
+            updateDisplay();
+            //displayTimerStatus();  //for debugging
             chrome.runtime.sendMessage({"task": "set-alarm"});
         });
     })
@@ -100,7 +103,7 @@ function resumeTimer() {
     storage.get("remainingTime", data => {
         let newEndTime = calculateEndTime(data.remainingTime);
         storage.set({"endTime": newEndTime});
-        displayCountdown();
+        updateDisplay();
         chrome.runtime.sendMessage({"task":"set-alarm"});
     });
 }
@@ -109,7 +112,7 @@ function resetTimer() {
     chrome.runtime.sendMessage({"task": "reset-alarm"});
     setTimerStatus(status.off);
     stopCountdown();
-    displayCountdown();
+    updateDisplay();
 }
 
 function stopCountdown() {
@@ -128,10 +131,11 @@ function calculateEndTime(duration) {
     let now = new Date();
     let end = new Date(now.getTime() + duration);
     return end.getTime();
-}
+}3
 
-function displayCountdown() {
+function updateDisplay() {
     storage.get(["timerStatus", "remainingTime", "pomPhase"], data => {
+        setPopupColor(data.timerStatus, data.pomPhase);
         if (data.timerStatus == status.on) {
             updateCountdown();
         } else if (data.timerStatus ==  status.paused) {
@@ -145,7 +149,7 @@ function displayCountdown() {
 function setTimerStatus(timerStatus) {
     storage.set({"timerStatus": timerStatus}, () => {
         console.log(`timerStatus set to ${timerStatus}`);
-        displayTimerStatus();
+        //displayTimerStatus();
     });
 }
 
@@ -216,5 +220,14 @@ function getPhaseDuration(pomPhase) {
             return shortBreak;
         case phase.longBreak:
             return longBreak;
+    }
+}
+
+function setPopupColor(curStatus, curPhase) {
+    let color = (curStatus == status.off)? popupColors.off: (curPhase == phase.work)? popupColors.work : popupColors.break;
+    document.body.style.backgroundColor = color;
+    let buttons = document.getElementsByTagName("button");
+    for (button of buttons) {
+        button.style.color = color;
     }
 }

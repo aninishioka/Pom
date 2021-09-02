@@ -27,6 +27,9 @@ main {
 
 button {
     cursor: pointer;
+    border: none;
+    background-color: white;
+    padding: 5px;
 }
 
 #countdown {
