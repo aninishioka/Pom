@@ -64,7 +64,7 @@ function setNextPhase() {
         let nextPhase = (data.pomPhase != phase.work)? phase.work : (nextCount % cycleLength  == 0)? phase.longBreak : phase.shortBreak;
         //storage.set({"pomPhase": newPhase, "phaseCount": newCount});
         storage.set({"pomPhase": nextPhase});
-        printPhase(nextPhase, nextCount); //for debugging
+        //printPhase(nextPhase, nextCount); //for debugging
     });
 }
 

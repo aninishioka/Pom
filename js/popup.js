@@ -1,11 +1,3 @@
-/*****to do: after timer finishes, show duration for next phase*****/
-/*****to do: getPhaseDuration --> setPhaseDuration****/
-/*****to do: user preferences*****/
-/*****to do: when to reset work phase count for the  day? at midnight?*****/
-/*****to do: label on top for each phase. eventually make clickable so can change phases*****/
-/*****to do: gear icon in corner*****/
-/*****to do: need diff way to count in case user changes phase themselves and throws count off. just count work phases?*****/
-
 const storage = chrome.storage.sync;
 const countdown = document.getElementById("countdown");
 const start = document.getElementById("start");
@@ -34,19 +26,19 @@ const phase = {
 }
 const cycleLength = 8;
 const popupColors = {
-    off: "#000000",
+    off: "#2F2F2F",
     work: "#EA4F49",
     break: "#49C199"
 }
 
-/*let workDuration = 25 * millisecsInAMin; 
+let workDuration = 25 * millisecsInAMin; 
 let shortBreak = 5 * millisecsInAMin; 
-let longBreak = 15 * millisecsInAMin;*/ 
+let longBreak = 15 * millisecsInAMin;
 
 /*****for debugging*****/
-let workDuration = 10 * millisecsInASec; 
+/*let workDuration = 10 * millisecsInASec; 
 let shortBreak = 5 * millisecsInASec;
-let longBreak = 8 * millisecsInASec;
+let longBreak = 8 * millisecsInASec;*/
 
 document.addEventListener("DOMContentLoaded", () => {
     updateDisplay();
